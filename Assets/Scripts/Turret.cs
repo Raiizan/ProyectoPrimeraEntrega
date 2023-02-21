@@ -10,10 +10,14 @@ public class Turret : MonoBehaviour
     public float timeLeft = 0.5f;
     public GameObject Ball;
     public Transform firePoint;
+    private bool playerInShootingRange;
+    public float shootingRange = 6f;
+    [SerializeField] private LayerMask layerToCollide;
+    private Transform playerTransform;
     // Start is called before the first frame update
     void Start()
     {
-        
+        playerTransform = GameObject.FindWithTag("Player").transform;
     }
 
     // Update is called once per frame
@@ -22,11 +26,16 @@ public class Turret : MonoBehaviour
 
         if (player != null)
         {
-            var vectorToPlayer = player.position - transform.position;
-            var distance = vectorToPlayer.magnitude;
-            var newRotation = Quaternion.LookRotation(vectorToPlayer);
-            transform.rotation = Quaternion.Lerp(transform.rotation, newRotation, Time.deltaTime * rotationSpeed);
-            shoot();
+            CheckPlayerVisibility();
+            if (playerInShootingRange)
+            {
+                var vectorToPlayer = player.position - transform.position;
+                var distance = vectorToPlayer.magnitude;
+                var newRotation = Quaternion.LookRotation(vectorToPlayer);
+                transform.rotation = Quaternion.Lerp(transform.rotation, newRotation, Time.deltaTime * rotationSpeed);
+                shoot();
+            }
+
         }
 
     }
@@ -41,6 +50,22 @@ public class Turret : MonoBehaviour
             GameObject newBall;
             newBall = Instantiate(Ball, firePoint.position, transform.rotation);
             timeLeft = 0.5f;
+        }
+    }
+
+    private void CheckPlayerVisibility()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, playerTransform.position - transform.position, out hit, shootingRange, layerToCollide))
+        {
+            if (hit.distance <= shootingRange)
+            {
+                playerInShootingRange = true;
+            }
+            else
+            {
+                playerInShootingRange = false;
+            }
         }
     }
 }

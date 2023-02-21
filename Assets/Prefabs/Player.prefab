@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5990823360436525049}
   - component: {fileID: 5990823360436524998}
   - component: {fileID: 5990823360436524999}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: FirePoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -106,7 +106,7 @@ GameObject:
   - component: {fileID: 5990823360566996253}
   - component: {fileID: 5990823360566996255}
   - component: {fileID: 5990823360566996252}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -189,7 +189,7 @@ GameObject:
   - component: {fileID: 5990823360690545614}
   - component: {fileID: 5990823360690545600}
   - component: {fileID: 5990823360690545601}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: legRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -272,7 +272,7 @@ GameObject:
   - component: {fileID: 5990823361207038017}
   - component: {fileID: 5990823361207038019}
   - component: {fileID: 5990823361207038016}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: armLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -356,7 +356,7 @@ GameObject:
   - component: {fileID: 5990823361258673300}
   - component: {fileID: 5990823361258673301}
   - component: {fileID: 8055818643503764802}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -458,7 +458,7 @@ GameObject:
   - component: {fileID: 5990823361349395335}
   - component: {fileID: 5990823361349395385}
   - component: {fileID: 5990823361349395334}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: blasterB
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -542,7 +542,7 @@ GameObject:
   - component: {fileID: 5990823361554475811}
   - component: {fileID: 5990823361554475813}
   - component: {fileID: 5990823361554475810}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: legLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -627,7 +627,7 @@ GameObject:
   - component: {fileID: 5990823361898833860}
   - component: {fileID: 5990823361898833863}
   - component: {fileID: 6480786781565283828}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -736,7 +736,7 @@ GameObject:
   - component: {fileID: 5990823362283703147}
   - component: {fileID: 5990823362283703149}
   - component: {fileID: 5990823362283703146}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: armRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -383,6 +383,10 @@ MonoBehaviour:
   timeLeft: 0.5
   Ball: {fileID: 6275775076595981504, guid: 77f48ad19db74fd4ca1c26ae848b4f60, type: 3}
   firePoint: {fileID: 2268895812105894746}
+  shootingRange: 6
+  layerToCollide:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1 &8949963690090052870
 GameObject:
   m_ObjectHideFlags: 0

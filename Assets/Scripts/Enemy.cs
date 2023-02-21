@@ -11,14 +11,30 @@ public class Enemy : MonoBehaviour
     public float timeLeft = 0.5f;
     public GameObject Ball;
     public Transform firePoint;
-    public int Maxhealth=3;
+    public int Maxhealth = 3;
     private int currentHealth;
     [SerializeField] private Animator animator;
+    private bool playerInSight;
+    private bool playerInShootingRange;
+    public float visionRange = 6f;
+    public float shootingRange = 4f;
+    [SerializeField] private LayerMask layerToCollide;
+    private Transform playerTransform;
+    [SerializeField] private List<Transform> waypoints = new List<Transform>();
     // Start is called before the first frame update
+ 
+    public int currentWaypoint;
+
+    private void Awake()
+    {
+        currentWaypoint = 0;
+    }
+
     void Start()
     {
         movementSpeed = 0.5f;
         currentHealth = Maxhealth;
+        playerTransform = GameObject.FindWithTag("Player").transform;
     }
 
     // Update is called once per frame
@@ -26,27 +42,61 @@ public class Enemy : MonoBehaviour
     {
         if (player != null)
         {
-            move();
-            shoot();
+            
+        CheckPlayerVisibility();
+            if (playerInSight)
+            {
+                moveToPlayer();
+                if (playerInShootingRange)
+                {
+                    shoot();
+                }
+                Debug.Log("active");
+            }
+        
+        else {
+            patrol(waypoints);
+            Debug.Log("patrol");
         }
-
+        }
     }
+
+    private void CheckPlayerVisibility()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, playerTransform.position - transform.position, out hit, visionRange, layerToCollide))
+        {
+            playerInSight = true;
+            if (hit.distance <= shootingRange)
+            {
+                playerInShootingRange = true;
+            }
+            else
+            {
+                playerInShootingRange = false;
+            }
+        }
+        else
+        {
+            playerInSight = false;
+        }
+    }
+
 
     void shoot()
     {
         timeLeft -= Time.deltaTime;
-        var vectorToPlayer = player.position - transform.position;
-        var distance = vectorToPlayer.magnitude;
-        if (distance < 4 && timeLeft <= 0)
+        if (timeLeft <= 0)
         {
             GameObject newBall;
             newBall = Instantiate(Ball, firePoint.position, transform.rotation);
-        timeLeft = 2f;
+            timeLeft = 2f;
         }
     }
 
-    void move()
+    void moveToPlayer()
     {
+        Debug.Log("aaaa");
         var vectorToPlayer = player.position - transform.position;
         var distance = vectorToPlayer.magnitude;
         var newRotation = Quaternion.LookRotation(vectorToPlayer);
@@ -69,12 +119,39 @@ public class Enemy : MonoBehaviour
         currentHealth -= damage;
 
         if (currentHealth <= 0)
-        {  
+        {
+            GameManager.Instance.enemyDead = true;
             Destroy(gameObject);
+            GameManager.Instance.AddToScore("level1", 10);
+
         }
     }
     private void ActivateCubeTransition(bool p_isActivated)
     {
         animator.SetBool(name: "Move", p_isActivated);
+    }
+
+
+    private void patrol(List<Transform> waypoints){
+
+        var vectorToWaypoint = waypoints[currentWaypoint].position - transform.position;
+        var distance = vectorToWaypoint.magnitude;
+        var newRotation = Quaternion.LookRotation(vectorToWaypoint);
+        transform.rotation = Quaternion.Lerp(transform.rotation, newRotation, Time.deltaTime * rotationSpeed);
+        transform.position = Vector3.MoveTowards(transform.position, waypoints[currentWaypoint].position, movementSpeed * Time.deltaTime);
+       
+       
+        ActivateCubeTransition(p_isActivated: true);
+        if (distance <= 1f){ 
+            if (currentWaypoint< waypoints.Count -1)
+            {
+                currentWaypoint += 1;
+            }
+            else
+            {
+                currentWaypoint = 0;
+            }
+    }
+
     }
 }
