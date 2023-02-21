@@ -1,0 +1,5 @@
+Space Shooter
+
+La entrega del proyecto intermedio es un shooter espacial, el jugador se mueve con WASD y dispara con la barra espaciadora.
+Aliens enemigos intentaran dispararle, y el jugador debe eliminarlos.
+Se puede cambiar de cámara con las letras E y R.

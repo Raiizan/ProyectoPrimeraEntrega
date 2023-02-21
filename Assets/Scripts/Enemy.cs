@@ -122,7 +122,7 @@ public class Enemy : MonoBehaviour
         {
             GameManager.Instance.enemyDead = true;
             Destroy(gameObject);
-            GameManager.Instance.AddToScore("level1", 10);
+            GameManager.Instance.AddToScore("Level1", 10);
 
         }
     }

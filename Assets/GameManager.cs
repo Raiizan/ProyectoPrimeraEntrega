@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
 
     public void AddToScore(string name, int amount)
     {
-        scores.Add(name, amount);
+        scores[name] += amount;
     }
 
     public void LoseLife()

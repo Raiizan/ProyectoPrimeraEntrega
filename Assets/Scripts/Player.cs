@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public GameObject[] weapons;
+    public int currentWeaponIndex;
     [SerializeField] private float speed = 1;
     [SerializeField] private float rotationSpeed = 10;
     [SerializeField] private Animator animator;
@@ -38,6 +40,39 @@ public class Player : MonoBehaviour
             timeLeft = 0.5f;
         };
         Movement();
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            ActiveWeapon(1);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            ActiveWeapon(2);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            ActiveWeapon(3);
+        }
+
+        float scroll = Input.GetAxis("Mouse ScrollWheel");
+        if (scroll > 0f)
+        {
+            currentWeaponIndex++;
+            if (currentWeaponIndex > weapons.Length)
+            {
+                currentWeaponIndex = 0;
+            }
+            ActiveWeapon(currentWeaponIndex);
+        }
+        else if (scroll < 0f)
+        {
+            currentWeaponIndex--;
+            if (currentWeaponIndex < 0)
+            {
+                currentWeaponIndex = weapons.Length - 1;
+            }
+            ActiveWeapon(currentWeaponIndex);
+        }
+
     }
     void Movement()
     {
@@ -73,5 +108,25 @@ public class Player : MonoBehaviour
         animator.SetBool(name: "Move", p_isActivated);
     }
 
-
+    public void ActiveWeapon(int number)
+    {
+        switch (number)
+        {
+            case 1:
+                weapons[0].SetActive(true);
+                weapons[1].SetActive(false);
+                weapons[2].SetActive(false);
+                break;
+            case 2:
+                weapons[0].SetActive(false);
+                weapons[1].SetActive(true);
+                weapons[2].SetActive(false);
+                break;
+            case 3:
+                weapons[0].SetActive(false);
+                weapons[1].SetActive(false);
+                weapons[2].SetActive(true);
+                break;
+        }
+    }
 }
