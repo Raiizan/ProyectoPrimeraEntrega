@@ -17,11 +17,17 @@ public class Player : MonoBehaviour
     public int Maxhealth = 10;
     private int currentHealth;
 
+    private void Awake()
+    {
+        
+    }
+
     private void Start()
     {
         speed = 1;
         currentHealth = Maxhealth;
         timeLeft = 0;
+        ScoreManager.instance.setLife(Maxhealth);
     }
 
     private void Move(Vector3 moveDirection)
@@ -96,11 +102,13 @@ public class Player : MonoBehaviour
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
-
+        ScoreManager.instance.setLife(currentHealth);
         if (currentHealth <= 0)
         {
             Destroy(gameObject);
+            
         }
+        
     }
 
     private void ActivateCubeTransition(bool p_isActivated)

@@ -123,7 +123,7 @@ public class Enemy : MonoBehaviour
             GameManager.Instance.enemyDead = true;
             Destroy(gameObject);
             GameManager.Instance.AddToScore("Level1", 10);
-
+            ScoreManager.instance.addscore(10);
         }
     }
     private void ActivateCubeTransition(bool p_isActivated)
