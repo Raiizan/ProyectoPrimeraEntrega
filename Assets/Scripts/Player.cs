@@ -16,6 +16,7 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform player;
     public int Maxhealth = 10;
     private int currentHealth;
+    private Weapon currentWeapon;
 
     private void Awake()
     {
@@ -28,6 +29,7 @@ public class Player : MonoBehaviour
         currentHealth = Maxhealth;
         timeLeft = 0;
         ScoreManager.instance.setLife(Maxhealth);
+        currentWeapon = weapons[currentWeaponIndex].GetComponentInChildren<Weapon>();
     }
 
     private void Move(Vector3 moveDirection)
@@ -43,7 +45,7 @@ public class Player : MonoBehaviour
         {
             GameObject newBall;
             newBall = Instantiate(Ball, firePoint.position, player.rotation);
-            timeLeft = 0.5f;
+            timeLeft = currentWeapon.weaponData.FireRate;
         };
         Movement();
         if (Input.GetKeyDown(KeyCode.Alpha1))
@@ -60,14 +62,16 @@ public class Player : MonoBehaviour
         }
 
         float scroll = Input.GetAxis("Mouse ScrollWheel");
-        if (scroll > 0f)
+        /*if (scroll > 0f)
         {
             currentWeaponIndex++;
             if (currentWeaponIndex > weapons.Length)
             {
                 currentWeaponIndex = 0;
+
             }
             ActiveWeapon(currentWeaponIndex);
+            currentWeapon = weapons[currentWeaponIndex].GetComponentInChildren<Weapon>();
         }
         else if (scroll < 0f)
         {
@@ -77,7 +81,8 @@ public class Player : MonoBehaviour
                 currentWeaponIndex = weapons.Length - 1;
             }
             ActiveWeapon(currentWeaponIndex);
-        }
+            currentWeapon = weapons[currentWeaponIndex].GetComponentInChildren<Weapon>();
+        }*/
 
     }
     void Movement()
@@ -124,16 +129,19 @@ public class Player : MonoBehaviour
                 weapons[0].SetActive(true);
                 weapons[1].SetActive(false);
                 weapons[2].SetActive(false);
+                currentWeapon = weapons[0].GetComponentInChildren<Weapon>();
                 break;
             case 2:
                 weapons[0].SetActive(false);
                 weapons[1].SetActive(true);
                 weapons[2].SetActive(false);
+                currentWeapon = weapons[1].GetComponentInChildren<Weapon>();
                 break;
             case 3:
                 weapons[0].SetActive(false);
                 weapons[1].SetActive(false);
                 weapons[2].SetActive(true);
+                currentWeapon = weapons[2].GetComponentInChildren<Weapon>();
                 break;
         }
     }
