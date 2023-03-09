@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
@@ -10,11 +11,14 @@ public class GameManager : MonoBehaviour
     public bool enemyDead;
     Dictionary<string, int> scores = new Dictionary<string, int>();
 
+    
+
     void Start()
     {
         scores.Add("Level1", 0);
         scores.Add("Level2", 0);
         scores.Add("Level3", 0);
+        
     }
     private void Awake()
     {

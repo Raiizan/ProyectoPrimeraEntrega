@@ -9,6 +9,7 @@ public class ScoreManager : MonoBehaviour
 
     public Text scoreText;
     public Text lifeText;
+    [SerializeField] private Player MainPlayer;
     
     int score=0;
     int life = 1;
@@ -17,14 +18,18 @@ public class ScoreManager : MonoBehaviour
     {
         instance= this;
     }
+
     void Start()
     {
+        var p_mainPlayer = MainPlayer;
+        p_mainPlayer.OnHealthChange += setLife;
         scoreText.text = "Puntiacion: " + score.ToString();
     }
 
     public void addscore(int s){
         score+=s;
         scoreText.text = "Puntuacion: " + score.ToString();
+
     }
 
     public void setLife(int l)

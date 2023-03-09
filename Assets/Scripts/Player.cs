@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Security.Authentication.ExtendedProtection;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -17,6 +19,9 @@ public class Player : MonoBehaviour
     public int Maxhealth = 10;
     private int currentHealth;
     private Weapon currentWeapon;
+    public event Action onPlayerDeath;
+    public Action<int> OnHealthChange;
+
 
     private void Awake()
     {
@@ -30,6 +35,7 @@ public class Player : MonoBehaviour
         timeLeft = 0;
         ScoreManager.instance.setLife(Maxhealth);
         currentWeapon = weapons[currentWeaponIndex].GetComponentInChildren<Weapon>();
+        onPlayerDeath += OnPlayerDeathHandler;
     }
 
     private void Move(Vector3 moveDirection)
@@ -107,11 +113,11 @@ public class Player : MonoBehaviour
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
-        ScoreManager.instance.setLife(currentHealth);
+        OnHealthChange.Invoke(currentHealth);
         if (currentHealth <= 0)
         {
-            Destroy(gameObject);
-            
+            onPlayerDeath?.Invoke();
+
         }
         
     }
@@ -144,5 +150,10 @@ public class Player : MonoBehaviour
                 currentWeapon = weapons[2].GetComponentInChildren<Weapon>();
                 break;
         }
+    }
+
+    public void OnPlayerDeathHandler()
+    {
+        Destroy(gameObject);
     }
 }

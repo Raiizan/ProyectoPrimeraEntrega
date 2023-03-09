@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+using System;
 
 public class Enemy : MonoBehaviour
 {
@@ -21,8 +23,9 @@ public class Enemy : MonoBehaviour
     [SerializeField] private LayerMask layerToCollide;
     private Transform playerTransform;
     [SerializeField] private List<Transform> waypoints = new List<Transform>();
+    public event Action onEnemyDeath;
     // Start is called before the first frame update
- 
+
     public int currentWaypoint;
 
     private void Awake()
@@ -35,6 +38,7 @@ public class Enemy : MonoBehaviour
         movementSpeed = 0.5f;
         currentHealth = Maxhealth;
         playerTransform = GameObject.FindWithTag("Player").transform;
+        onEnemyDeath += OnEnemyDeathHandler;
     }
 
     // Update is called once per frame
@@ -81,8 +85,6 @@ public class Enemy : MonoBehaviour
             playerInSight = false;
         }
     }
-
-
     void shoot()
     {
         timeLeft -= Time.deltaTime;
@@ -93,7 +95,6 @@ public class Enemy : MonoBehaviour
             timeLeft = 2f;
         }
     }
-
     void moveToPlayer()
     {
         Debug.Log("aaaa");
@@ -113,25 +114,19 @@ public class Enemy : MonoBehaviour
             ActivateCubeTransition(p_isActivated: false);
         }
     }
-
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
 
         if (currentHealth <= 0)
         {
-            GameManager.Instance.enemyDead = true;
-            Destroy(gameObject);
-            GameManager.Instance.AddToScore("Level1", 10);
-            ScoreManager.instance.addscore(10);
+            onEnemyDeath?.Invoke();
         }
     }
     private void ActivateCubeTransition(bool p_isActivated)
     {
         animator.SetBool(name: "Move", p_isActivated);
     }
-
-
     private void patrol(List<Transform> waypoints){
 
         var vectorToWaypoint = waypoints[currentWaypoint].position - transform.position;
@@ -154,4 +149,14 @@ public class Enemy : MonoBehaviour
     }
 
     }
+    public void OnEnemyDeathHandler()
+    {
+        GameManager.Instance.enemyDead = true;
+        Destroy(gameObject);
+        GameManager.Instance.AddToScore("Level1", 10);
+        ScoreManager.instance.addscore(10);
+        
+    }
+
+
 }
