@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Security.Authentication.ExtendedProtection;
 using UnityEditor.UIElements;
 using UnityEngine;
+using UnityEngine.Rendering.PostProcessing;
 
 public class Player : MonoBehaviour
 {
@@ -21,6 +22,8 @@ public class Player : MonoBehaviour
     private Weapon currentWeapon;
     public event Action onPlayerDeath;
     public Action<int> OnHealthChange;
+    [SerializeField] private PostProcessVolume volume;
+    private Grain _grain;
 
 
     private void Awake()
@@ -89,6 +92,19 @@ public class Player : MonoBehaviour
             ActiveWeapon(currentWeaponIndex);
             currentWeapon = weapons[currentWeaponIndex].GetComponentInChildren<Weapon>();
         }*/
+
+        //PostProcess 
+
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            volume.profile.TryGetSettings(out _grain);
+            _grain.intensity.value -= 0.1f;
+        }
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            volume.profile.TryGetSettings(out _grain);
+            _grain.intensity.value += 0.1f;
+        }
 
     }
     void Movement()
